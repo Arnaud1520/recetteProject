@@ -31,6 +31,10 @@ class Recipe
     #[ORM\OneToOne(mappedBy: 'recipe', cascade: ['persist', 'remove'])]
     private ?NutritionInfo $nutritionInfo = null;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'recipes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
 
     public function getId(): ?int
     {

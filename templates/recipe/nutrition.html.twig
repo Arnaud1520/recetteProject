@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nutrition Data{% endblock %}
+
+{% block body %}
+    <h1>Nutrition Data</h1>
+
+    <ul>
+        <li>Protein: {{ nutritionData.protein }} g</li>
+        <li>Fat: {{ nutritionData.fat }} g</li>
+        <li>Carbohydrates: {{ nutritionData.carbs }} g</li>
+    </ul>
+{% endblock %}
