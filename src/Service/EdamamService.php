@@ -30,13 +30,23 @@ class EdamamService
 
         $data = $response->toArray();
 
-        // Vérifier si les clés existent
-        $nutritionData = [
-            'protein' => isset($data['totalNutrients']['PROCNT']) ? $data['totalNutrients']['PROCNT']['quantity'] : 0,
-            'fat' => isset($data['totalNutrients']['FAT']) ? $data['totalNutrients']['FAT']['quantity'] : 0,
-            'carbs' => isset($data['totalNutrients']['CHOCDF']) ? $data['totalNutrients']['CHOCDF']['quantity'] : 0,
-        ];
+        // Inspecter la réponse
+    dd($data);
 
-        return $nutritionData;
+        // Extraire toutes les informations nutritionnelles si elles existent
+    $nutritionData = [];
+
+    if (isset($data['totalNutrients'])) {
+        foreach ($data['totalNutrients'] as $key => $nutrient) {
+            $nutritionData[$key] = [
+                'label' => $nutrient['label'],
+                'quantity' => $nutrient['quantity'],
+                'unit' => $nutrient['unit']
+            ];
+        }
+    }
+
+    return $nutritionData;
+
     }
 }

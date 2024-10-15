@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Données Nutritionnelles{% endblock %}
+
+{% block body %}
+<h1>Données Nutritionnelles</h1>
+    {% if nutritionData.error is defined %}
+    <p>{{ nutritionData.error }}</p>
+{% else %}
+    <ul>
+        {% for key, nutrient in nutritionData %}
+            <li>{{ nutrient.label }}: {{ nutrient.quantity }} {{ nutrient.unit }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+
+{% endblock %}

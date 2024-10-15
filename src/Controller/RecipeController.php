@@ -26,4 +26,5 @@ class RecipeController extends AbstractController
             'nutritionData' => $nutritionData,
         ]);
     }
+
 }
