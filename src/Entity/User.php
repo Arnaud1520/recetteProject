@@ -6,10 +6,12 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -19,17 +21,22 @@ class User
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $role = null;
+    private ?string $role = null; // Utilisation de votre colonne "role"
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Recipe::class)]
     private Collection $recipes;
+
+    public function __construct()
+    {
+        $this->recipes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -83,4 +90,36 @@ class User
 
         return $this;
     }
+
+    /**
+     * Implémentation de la méthode getRoles() requise par UserInterface
+     */
+    public function getRoles(): array
+    {
+        // Convertit la colonne "role" en un tableau attendu par Symfony
+        return [$this->role];
+    }
+
+    /**
+     * Implémentation de la méthode eraseCredentials() requise par UserInterface
+     */
+    public function eraseCredentials(): void
+    {
+        // Effacer toutes les informations sensibles ici, si vous en stockez temporairement
+    }
+
+    /**
+     * Implémentation de la méthode getUserIdentifier() pour la connexion
+     */
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
+    }
+
+    // Méthode requise par PasswordAuthenticatedUserInterface
+    public function getSalt(): ?string
+    {
+        return null; // Pas nécessaire si bcrypt ou argon2 est utilisé
+    }
 }
+

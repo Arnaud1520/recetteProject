@@ -19,10 +19,12 @@ class RecipeController extends AbstractController
     #[Route('/recipe/nutrition', name: 'recipe_nutrition')]
     public function nutrition(): Response
     {
-        $ingredient = '2 apples'; // Exemple d'ingrédient
+        $ingredient = '1 tomato'; // Exemple d'ingrédient
         $nutritionData = $this->edamamService->getNutritionData($ingredient);
 
+        dump($nutritionData); // Ajoutez ceci pour voir la structure dans la console Symfony
         return $this->render('recipe/nutrition.html.twig', [
+            'ingredient' => $ingredient,   // Passez l'ingrédient à la vue
             'nutritionData' => $nutritionData,
         ]);
     }

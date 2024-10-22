@@ -18,35 +18,17 @@ class EdamamService
     }
 
     public function getNutritionData(string $ingredient): array
-    {
-        $url = 'https://api.edamam.com/api/nutrition-data';
-        $response = $this->client->request('GET', $url, [
-            'query' => [
-                'app_id' => $this->appId,
-                'app_key' => $this->apiKey,
-                'ingr' => $ingredient
-            ]
-        ]);
+{
+    $url = 'https://api.edamam.com/api/nutrition-data';
+    $response = $this->client->request('GET', $url, [
+        'query' => [
+            'app_id' => $this->appId,
+            'app_key' => $this->apiKey,
+            'ingr' => $ingredient
+        ]
+    ]);
 
-        $data = $response->toArray();
-
-        // Inspecter la réponse
-    dd($data);
-
-        // Extraire toutes les informations nutritionnelles si elles existent
-    $nutritionData = [];
-
-    if (isset($data['totalNutrients'])) {
-        foreach ($data['totalNutrients'] as $key => $nutrient) {
-            $nutritionData[$key] = [
-                'label' => $nutrient['label'],
-                'quantity' => $nutrient['quantity'],
-                'unit' => $nutrient['unit']
-            ];
-        }
-    }
-
-    return $nutritionData;
-
-    }
+    // Retourne toutes les données reçues depuis l'API
+    return $response->toArray();
+}
 }

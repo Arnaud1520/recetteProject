@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+    <h1>Login</h1>
+
+    {# Formulaire de login Symfony #}
+    {{ form_start(form) }}
+        <div>
+            {{ form_row(form.email) }}
+        </div>
+        <div>
+            {{ form_row(form.password) }}
+        </div>
+
+        <button type="submit">Confirmer</button>
+    {{ form_end(form) }}
+
+    {# Si une erreur de connexion existe, on l'affiche #}
+    {% if error %}
+        <div class="error">
+            {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
+    {% endif %}
+
+    
+{% endblock %}
